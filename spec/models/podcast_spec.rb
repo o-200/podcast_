@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe Podcast, type: :model do
   subject(:podcast) { FactoryBot.build(:podcast) }
 
+  ########## ACTIVE-STORAGE-VALIDATIONS ##########
+  it { is_expected.to validate_attached_of(:audio) }
+  it { is_expected.to validate_content_type_of(:audio).allowing('audio/mpeg', 'audio/mp4', 'audio/wav', 'audio/aac', 'audio/ogg', 'audio/webm', 'audio/3gpp') }
+  it { is_expected.to validate_size_of(:audio).between(15.kilobyte..2.gigabytes) }
+  ################################################
+
   it 'is valid with FactoryBot attributes' do
     expect(podcast).to be_valid
   end
